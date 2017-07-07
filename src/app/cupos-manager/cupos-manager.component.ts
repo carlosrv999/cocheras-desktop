@@ -1,3 +1,4 @@
+import { UpdateService } from './../servicios/update.service';
 import { CocheraService } from 'app/servicios/cochera.service';
 import { AuthService } from './../servicios/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +10,7 @@ import { Cochera } from "app/models/cochera.model";
   styleUrls: ['./cupos-manager.component.css']
 })
 export class CuposManagerComponent implements OnInit {
+  reloading: boolean = false
   agregarCuposLoading = false;
   eliminarCuposLoading = false;
   notif = false;
@@ -19,17 +21,23 @@ export class CuposManagerComponent implements OnInit {
   cochera: Cochera;
 
   constructor(private authService: AuthService,
-              private cocheraService: CocheraService) { }
+              private cocheraService: CocheraService,
+              private update: UpdateService) { }
 
   ngOnInit() {
     this.setCochera();
+    this.update.clicked.subscribe((clicked) => {
+      this.setCochera();
+    });
   }
 
   setCochera () {
+    this.reloading = true;
     if(localStorage.key(0) != null) {
       let coch: Cochera = <Cochera>JSON.parse(localStorage.getItem(localStorage.key(0)));
       this.cocheraService.getCochera(coch.id).subscribe(
         (response) => {
+          this.reloading = false;
           let resp: Cochera = <Cochera>response.json();
           this.cochera = resp;
         }, (error) => {

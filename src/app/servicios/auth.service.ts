@@ -17,7 +17,7 @@ export class AuthService {
 
   constructor(private http: Http) {}
   loginUser(username: string, password: string) {
-    return this.http.post(Constantes.HTTP+Constantes.IP+":"+Constantes.PORT+'/'+Constantes.COCHERA_API+"/login", {
+    return this.http.post(Constantes.HTTP+Constantes.IP+'/'+Constantes.COCHERA_API+"/login", {
       "username": username,
       "password": password
     });

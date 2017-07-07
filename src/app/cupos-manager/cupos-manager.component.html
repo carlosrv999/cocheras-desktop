@@ -76,6 +76,8 @@
   </div>
 </div>
 
+<app-modal-loading *ngIf="reloading"></app-modal-loading>
+
 <div class="modal is-active" [ngClass]="{ 'is-active' : modalEliminar }">
   <div class="modal-background" id="modalEliminar" (click)="onBackgroundClick()">
   </div>
